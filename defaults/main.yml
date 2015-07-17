@@ -55,3 +55,18 @@ apache_vhosts:
         port: 443
         certificate_file: "test-ssl.pem"
         key_file: "test-ssl.key"
+  - server_name: test-ispcp.dev
+    server_admin: test-ispcp@example.com
+    server_file_name: test-ispcp
+    template: vhost_ispcp.conf.j2
+    base_path: /var/www/test-ispcp
+    document_root: /var/www/test-ispcp/htdocs
+    ispcp_user: vu2014
+    ispcp_admin_url: "http://admin.example.com"
+    virtual_hosts:
+      - has_ssl: true
+        port: 443
+        server_alias: 
+          - www.test-ispcp.local
+        certificate_file: "test-ssl.pem"
+        key_file: "test-ssl.key"
