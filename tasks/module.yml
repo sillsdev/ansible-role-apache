@@ -17,3 +17,11 @@
   notify: Restart apache
   with_items: "{{apache_module_enable}}"
   when: apache_module_enable != false
+
+- name: Copy apache module config file
+  copy:
+    src: "{{item}}.conf"
+    dest: "/etc/apache2/mods-available"
+  notify: Restart apache
+  with_items: apache_module_config
+  when: apache_module_enable != false

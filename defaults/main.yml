@@ -16,6 +16,9 @@ apache_module_enable:
   - rewrite
   - ssl
 
+apache_module_config:
+  - ssl
+
 apache_site_disable:
   - 000-default
   - default-ssl
