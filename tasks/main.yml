@@ -1,6 +1,6 @@
 ---
 
-- include: install.yml
-- include: vhost.yml
-- include: module.yml
-- include: site.yml
+- { include: install.yml, tags: [ 'apache_install' ] }
+- { include: vhost.yml, tags: [ 'apache_vhosts' ] }
+- { include: module.yml, tags: [ 'apache_modules' ] }
+- { include: site.yml, tags: [ 'apache_sites' ] }

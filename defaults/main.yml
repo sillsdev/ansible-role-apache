@@ -17,7 +17,7 @@ apache_module_enable:
   - ssl
 
 apache_module_config:
-  - ssl
+  - ssl.conf
 
 apache_site_disable:
   - 000-default

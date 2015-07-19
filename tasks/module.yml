@@ -20,8 +20,9 @@
 
 - name: Copy apache module config file
   copy:
-    src: "{{item}}.conf"
-    dest: "/etc/apache2/mods-available"
+    src: "{{item}}"
+    dest: "/etc/apache2/mods-available/"
+    backup: yes
   notify: Restart apache
   with_items: apache_module_config
-  when: apache_module_enable != false
+  when: apache_module_config != false
