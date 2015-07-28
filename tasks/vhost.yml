@@ -16,7 +16,13 @@
   file: path="{{item.document_root}}" state=directory
   notify: Restart apache
   with_items: apache_vhosts
-  when: apache_vhosts != false
+  when: apache_vhosts != false and item.link_to is not defined
+
+- name: Ensure document root exists
+  file: src={{item.link_to}} dest={{item.document_root}} state=link
+  notify: Restart apache
+  with_items: apache_vhosts
+  when: apache_vhosts != false and item.link_to is defined
 
 - name: Copy key
   command: rsync -i --checksum "{{apache_ssl_key_store}}/{{item.1.key_file}}" "{{apache_ssl_path}}/{{item.1.key_file}}"
