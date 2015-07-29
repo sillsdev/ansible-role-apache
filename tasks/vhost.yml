@@ -12,14 +12,20 @@
 - name: Ensure apache SSL path exists
   file: path="{{apache_ssl_path}}" state=directory
 
-- name: Ensure document root exists
-  file: path="{{item.document_root}}" state=directory
+- name: Ensure document base exists
+  file: path="{{item.document_root}}/.." state=directory
+  notify: Restart apache
+  with_items: apache_vhosts
+  when: apache_vhosts != false
+
+- name: Ensure document root exists (dir)
+  file: path="{{item.document_root}} | realpath" state=directory
   notify: Restart apache
   with_items: apache_vhosts
   when: apache_vhosts != false and item.link_to is not defined
 
-- name: Ensure document root exists
-  file: src={{item.link_to}} dest={{item.document_root}} state=link
+- name: Ensure document root exists (link)
+  file: src={{item.link_to}} dest={{item.document_root}} state=link force=true
   notify: Restart apache
   with_items: apache_vhosts
   when: apache_vhosts != false and item.link_to is defined
