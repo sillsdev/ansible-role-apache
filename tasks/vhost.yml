@@ -13,7 +13,7 @@
   file: path="{{apache_ssl_path}}" state=directory
 
 - name: Ensure document base exists
-  file: path="{{ {{item.document_root}}/.. | realpath }}" state=directory
+  file: path="{{item.document_root | dirname | realpath }}" state=directory
   notify: Restart apache
   with_items: apache_vhosts
   when: apache_vhosts != false
