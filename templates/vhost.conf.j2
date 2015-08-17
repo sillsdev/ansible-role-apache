@@ -15,8 +15,12 @@ DirectoryIndex {{ item.index | default('index.html') }}
 {% endfor %}{% endif %}
 
     <Directory "{{ item.document_root }}">
-        AllowOverride All
+{% if item.directory_options is defined %}
+        Options {{ item.directory_options | join(' ') }}
+{% else %}
         Options -Indexes +FollowSymLinks
+{% endif %}
+        AllowOverride All
         Order allow,deny
         Allow from all
         Require all granted

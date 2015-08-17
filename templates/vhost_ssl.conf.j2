@@ -25,7 +25,11 @@
     </Directory>
 
     <Directory "{{ item.document_root }}">
+{% if item.directory_options is defined %}
+        Options {{ item.directory_options | join(' ') }}
+{% else %}
         Options -Indexes +FollowSymLinks
+{% endif %}
         AllowOverride All
         Order allow,deny
         Allow from all
