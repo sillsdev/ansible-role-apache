@@ -6,7 +6,7 @@
     dest="/etc/apache2/sites-available/{{ item.server_file_name }}.conf"
     owner=root group=root mode=644
   notify: Restart apache
-  with_items: apache_vhosts
+  with_items: "{{apache_vhosts}}"
   when: apache_vhosts != false
 
 - name: Ensure apache SSL path exists
@@ -15,19 +15,19 @@
 - name: Ensure document base exists
   file: path="{{item.document_root | dirname | realpath }}" state=directory
   notify: Restart apache
-  with_items: apache_vhosts
+  with_items: "{{apache_vhosts}}"
   when: apache_vhosts != false
 
 - name: Ensure document root exists (dir)
   file: path="{{item.document_root | realpath}}" state=directory
   notify: Restart apache
-  with_items: apache_vhosts
+  with_items: "{{apache_vhosts}}"
   when: apache_vhosts != false and item.link_to is not defined
 
 - name: Ensure document root exists (link)
   file: src={{item.link_to}} dest={{item.document_root}} state=link force=true
   notify: Restart apache
-  with_items: apache_vhosts
+  with_items: "{{apache_vhosts}}"
   when: apache_vhosts != false and item.link_to is defined
 
 - name: Copy key
@@ -36,14 +36,14 @@
   changed_when: result.stdout
   notify: Restart apache
   with_subelements:
-   - apache_vhosts
+   - "{{apache_vhosts}}"
    - virtual_hosts
   when: apache_vhosts != false and item.1.has_ssl == true
 
 - name: Fix key permissions
   file: path="{{apache_ssl_path}}/{{item.1.key_file}}" mode=0600 state=file
   with_subelements:
-   - apache_vhosts
+   - "{{apache_vhosts}}"
    - virtual_hosts
   when: apache_vhosts != false and item.1.has_ssl == true
 
@@ -54,7 +54,7 @@
     mode: 0600
   notify: Restart apache
   with_subelements:
-   - apache_vhosts
+   - "{{apache_vhosts}}"
    - virtual_hosts
   when: apache_vhosts != false and item.1.has_ssl == true
 
@@ -65,6 +65,6 @@
     mode: 0600
   notify: Restart apache
   with_subelements:
-   - apache_vhosts
+   - "{{apache_vhosts}}"
    - virtual_hosts
   when: apache_vhosts != false and item.1.has_ssl == true and item.1.chain_file is defined
