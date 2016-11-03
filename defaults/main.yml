@@ -35,7 +35,7 @@ apache_vhosts:
     virtual_hosts:
       - has_ssl: false
         port: 80
-        server_alias: 
+        server_alias:
           - test.local
           - test.localnet
   - server_name: test-ssl.dev
@@ -48,7 +48,7 @@ apache_vhosts:
     virtual_hosts:
       - has_ssl: false
         port: 80
-        server_alias: 
+        server_alias:
           - test-ssl.local
           - test-ssl.localnet
       - has_ssl: true
@@ -66,7 +66,25 @@ apache_vhosts:
     virtual_hosts:
       - has_ssl: true
         port: 443
-        server_alias: 
+        server_alias:
           - www.test-ispcp.local
         certificate_file: "test-ssl.pem"
         key_file: "test-ssl.key"
+  - server_name: test-proxy.dev
+    server_admin: test-proxy@example.com
+    server_file_name: test-proxy
+    template: vhost_proxy_ssl.conf.j2
+    document_root: /var/www/test-proxy
+    virtual_hosts:
+      - has_ssl: false
+        port: 80
+        server_alias:
+          - test-proxy.local
+          - test-proxy.localnet
+        proxy: http://localhost:3001
+      - has_ssl: true
+        port: 443
+        certificate_file: "test-ssl.pem"
+        key_file: "test-ssl.key"
+        proxy: http://localhost:3001
+        proxy_reverse: http://127.0.0.1:3001
