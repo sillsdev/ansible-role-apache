@@ -20,7 +20,7 @@
   file: path="{{item.document_root | dirname | realpath }}" state=directory
   notify: Restart apache
   with_items: "{{apache_vhosts}}"
-  when: apache_vhosts != false
+  when: apache_vhosts != false and item.documentroot is defined
   tags:
     - apache_dir_check
 
@@ -28,7 +28,7 @@
   file: path="{{item.document_root | realpath}}" state=directory
   notify: Restart apache
   with_items: "{{apache_vhosts}}"
-  when: apache_vhosts != false and item.link_to is not defined
+  when: apache_vhosts != false and item.documentroot is defined and item.link_to is not defined
   tags:
     - apache_dir_check
 
@@ -36,6 +36,6 @@
   file: src={{item.link_to}} dest={{item.document_root}} state=link force=true
   notify: Restart apache
   with_items: "{{apache_vhosts}}"
-  when: apache_vhosts != false and item.link_to is defined
+  when: apache_vhosts != false and item.documentroot is defined and item.link_to is defined
   tags:
     - apache_dir_check
