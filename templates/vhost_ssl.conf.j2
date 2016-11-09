@@ -15,9 +15,12 @@
     
 {% endif %}
     DocumentRoot {{ item.document_root }}
-{% if item.virtualhost_extra is defined %}{% for extra in item.virtualhost_extra %}
+{% if host.extra is defined %}
+
+{% for extra in host.extra %}
     {{ extra }}
-{% endfor %}{% endif %}
+{% endfor %}
+{% endif %}
 
     <Directory />
         Options FollowSymLinks
