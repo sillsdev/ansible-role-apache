@@ -27,6 +27,7 @@
         Options FollowSymLinks
         AllowOverride None
     </Directory>
+{% if host.proxy | default('') != '' %}
 
    <Location />
         Order deny,allow
@@ -34,6 +35,7 @@
         ProxyPass {{ host.proxy }}
         ProxyPassReverse {{ host.proxy_reverse | default(host.proxy) }}
     </Location>
+{% endif %}
 
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
