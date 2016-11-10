@@ -28,8 +28,8 @@
     </Directory>
 
     <Directory "{{ item.document_root }}">
-{% if item.directory_options is defined %}
-        Options {{ item.directory_options | join(' ') }}
+{% if host.directory_options is defined %}
+        Options {{ host.directory_options | join(' ') }}
 {% else %}
         Options -Indexes +FollowSymLinks
 {% endif %}
@@ -37,7 +37,7 @@
         Order allow,deny
         Allow from all
 
-{% if item.directory_extra is defined %}{% for extra in item.directory_extra %}
+{% if host.directory_extra is defined %}{% for extra in host.directory_extra %}
         {{ extra }}
 {% endfor %}{% endif %}
 
