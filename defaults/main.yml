@@ -88,6 +88,24 @@ apache_vhosts:
         key_file: "test-ssl.key"
         proxy: http://localhost:3001
         proxy_reverse: http://127.0.0.1:3001
+  - server_name: test-proxypath.dev
+    server_admin: test-proxypath@example.com
+    server_file_name: test-proxypath
+    template: vhost_proxypath_ssl.conf.j2
+    document_root: /var/www/test-proxypath
+    virtual_hosts:
+      - has_ssl: false
+        port: 80
+        server_alias:
+          - test-proxypath.local
+          - test-proxypath.localnet
+        proxy: http://localhost:3001
+      - has_ssl: true
+        port: 443
+        certificate_file: "test-ssl.pem"
+        key_file: "test-ssl.key"
+        proxy: http://localhost:3001
+        proxy_reverse: http://127.0.0.1:3001
   - server_name: test-letsencrypt-ssl.dev
     server_admin: test-letsencrypt-ssl@example.com
     server_file_name: test-letsencrypt-ssl
