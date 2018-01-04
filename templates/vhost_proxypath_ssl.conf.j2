@@ -48,10 +48,10 @@
 
     ErrorLog ${APACHE_LOG_DIR}/{{item.server_file_name}}_error.log
     CustomLog ${APACHE_LOG_DIR}/{{item.server_file_name}}_access.log combined
-{% if host.proxy | default('') != '' %}
+{% if host.proxy is defined %}{% for proxy in host.proxy %}
 
-    ProxyPass {{ host.proxy }}
-{% endif %}
+    ProxyPass {{ proxy }}
+{% endfor %}{% endif %}
 
 </VirtualHost>
 {% endfor %}
