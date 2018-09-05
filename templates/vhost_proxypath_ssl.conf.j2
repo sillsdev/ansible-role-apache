@@ -48,10 +48,16 @@
 
     ErrorLog ${APACHE_LOG_DIR}/{{item.server_file_name}}_error.log
     CustomLog ${APACHE_LOG_DIR}/{{item.server_file_name}}_access.log combined
-{% if host.proxy is defined %}{% for proxy in host.proxy %}
+{% if host.proxy is defined %}
 
+{% for proxy in host.proxy %}
     ProxyPass {{ proxy }}
-{% endfor %}{% endif %}
+{% endfor %}
+{% if host.has_ssl %}
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+{% endif %}
+{% endif %}
 
 </VirtualHost>
 {% endfor %}
