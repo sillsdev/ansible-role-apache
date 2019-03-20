@@ -33,7 +33,10 @@
 {% endif %}
 {% if host.proxy | default('') != '' %}
 
-   <Location />
+    # Exclude ./well-known for LetsEncrypt
+    ProxyPass /.well-known !
+
+    <Location />
         Order deny,allow
         Allow from all
         ProxyPass {{ host.proxy }}
