@@ -12,8 +12,11 @@
     SSLCertificateKeyFile {{host.ssl_path | default(apache_ssl_path)}}/{{host.key_file}}
 {% if host.chain_file is defined %}    SSLCertificateChainFile {{host.ssl_path | default(apache_ssl_path)}}/{{ host.chain_file }}
 {% endif %}
-    
+
 {% endif %}
+{% if not host.has_ssl and host.has_redirect_permanent is defined and host.has_redirect_permanent %}
+    Redirect permanent / https://{{ item.server_name }}/
+{% else %}
     DocumentRoot {{ item.document_root }}
 {% if host.extra is defined %}
 
@@ -41,6 +44,7 @@
         {{ extra }}
 {% endfor %}{% endif %}
     </Directory>
+{% endif %}
     
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
