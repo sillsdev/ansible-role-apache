@@ -1,7 +1,7 @@
 ---
 
 - hosts: all
-  sudo: true
+  become: true
   roles:
     - { role: ../../ansible-role-apache, tags: apache }
   pre_tasks:
