@@ -1,10 +1,7 @@
 ---
 
 - name: Copy key
-  ansible.posix.synchronize:
-    src: "{{ item.1.ssl_store | default(apache_ssl_store) }}/{{ item.1.store_key_file | default(item.1.key_file) }}"
-    dest: "{{ item.1.ssl_path | default(apache_ssl_path) }}/{{ item.1.key_file }}"
-    checksum: true
+  command: rsync -i --checksum "{{ item.1.ssl_store | default(apache_ssl_store) }}/{{ item.1.store_key_file | default(item.1.key_file) }}" "{{ item.1.ssl_path | default(apache_ssl_path) }}/{{ item.1.key_file }}"
   register: result
   changed_when: result.stdout
   notify: Restart apache
