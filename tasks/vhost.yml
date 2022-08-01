@@ -17,7 +17,7 @@
   file:
     path: "{{ apache_ssl_path }}"
     state: directory
-    mode: 0644
+    mode: 0755
   tags:
     - apache_dir_check
 
@@ -25,7 +25,7 @@
   file:
     path: "{{ item.document_root | dirname | realpath }}"
     state: directory
-    mode: 0644
+    mode: 0755
   notify: Restart apache
   with_items: "{{ apache_vhosts }}"
   when: apache_vhosts and item.document_root is defined
