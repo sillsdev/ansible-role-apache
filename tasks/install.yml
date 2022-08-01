@@ -10,7 +10,6 @@
   apt:
     update_cache: true
     cache_valid_time: 3600
-    pkg: "{{ item }}"
+    pkg: "{{ apache_install }}"
     state: present
-  with_items: "{{ apache_install }}"
   when: apache_install
