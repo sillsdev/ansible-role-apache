@@ -36,7 +36,7 @@
   file:
     path: "{{ item.document_root | realpath }}"
     state: directory
-    mode: 0644
+    mode: 0755
   notify: Restart apache
   with_items: "{{ apache_vhosts }}"
   when: apache_vhosts  and item.document_root is defined and item.link_to is not defined
