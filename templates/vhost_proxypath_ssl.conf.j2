@@ -16,6 +16,10 @@
 {% endif %}
 {% if not host.has_ssl and host.has_redirect_permanent is defined and host.has_redirect_permanent %}
     Redirect permanent / https://{{ item.server_name }}/
+{% elif host.rewrite_rules is defined %}
+{% for rule in host.rewrite_rules %}
+    {{ rule }}
+{% endfor %}
 {% else %}
     DocumentRoot {{ item.document_root }}
 {% if host.extra is defined %}
@@ -45,7 +49,7 @@
 {% endfor %}{% endif %}
     </Directory>
 {% endif %}
-    
+
     # Possible values include: debug, info, notice, warn, error, crit,
     # alert, emerg.
     LogLevel warn
