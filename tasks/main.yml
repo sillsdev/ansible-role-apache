@@ -1,15 +1,20 @@
 ---
 
-- include: install.yml
+- name: Install apache
+  import_tasks: install.yml
   tags: [install]
 
-- include: vhost.yml
+- name: Configure apache vhosts
+  import_tasks: vhost.yml
 
-- include: ssl.yml
+- name: Configure apache SSL
+  import_tasks: ssl.yml
   tags: [apache_ssl]
 
-- include: module.yml
+- name: Configure apache modules
+  import_tasks: module.yml
   tags: [apache_module]
 
-- include: site.yml
+- name: Configure apache sites
+  import_tasks: site.yml
   tags: [apache_site]
